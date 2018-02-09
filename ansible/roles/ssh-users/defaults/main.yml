@@ -1,0 +1,46 @@
+user_groups:
+  - name: docker
+    groupid: 30001
+    sudo: false
+  - name: trinimbus
+    groupid: 31000
+    sudo: true
+  - name: yvrdevops
+    groupid: 32000
+    sudo: true
+
+current_users:
+  - name: abraham
+    uid: 10005
+    shell: /bin/bash
+    primary_group: yvrdevops
+    groups:
+      - docker
+    authorized_key:
+      - sshkeys/abraham
+  - name: alan
+    uid: 10003
+    shell: /bin/bash
+    primary_group: yvrdevops
+    groups:
+      - docker
+    authorized_key: 
+      - sshkeys/alan
+  - name: andy
+    uid: 10004
+    shell: /bin/bash
+    primary_group: yvrdevops
+    groups:
+      - docker
+    authorized_key: 
+      - sshkeys/andy
+
+# Any user in this list will be removed on deploy. Intended for when people leave etc.
+remove_users:
+  - fakeuser
+
+
+#[ec2-user@ip-10-224-166-88 ~]$ sudo cat /etc/ssh/sshd_config |grep ClientAliveCountMax
+#ClientAliveCountMax 0
+#[ec2-user@ip-10-224-166-88 ~]$ sudo cat /etc/ssh/sshd_config |grep ClientAliveInterval
+#ClientAliveInterval 300

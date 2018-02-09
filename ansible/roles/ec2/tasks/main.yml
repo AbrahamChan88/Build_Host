@@ -1,0 +1,76 @@
+# Deploy EC2 instance with a EBS volume
+- name: Include vars
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ node_type }}.yml"
+
+# Cloud Platform: AWS
+- name: Build Security Group
+  ec2_group:
+    tags:
+      Name: "{{ namespace }}-sg"
+      Owner: "{{ owner }}"
+      Owner_Slack_Username: "{{ owner_slack_username }}"
+      Expiration: "{{ expiration }}"
+      Project: "{{ project }}"
+    name: "{{ namespace }}-sg"
+    description: "{{ namespace }}-sg"
+    vpc_id: "{{ vpcreturn.vpc.id }}"
+    rules:
+      - proto: all
+        group_name: "{{ namespace }}-sg"
+      - proto: all
+        cidr_ip: "{{ vpn_cidr }}"
+    rules_egress:
+      - proto: all
+        cidr_ip: 0.0.0.0/0
+  register: sgresult
+  when: cloud_type is defined and cloud_type == "aws"
+
+- name: debug sg
+  debug: var=sgresult
+  when: debug in ['True', True]
+
+- name: Provision a {{ node_type }} ec2 instance
+  ec2:
+    key_name: "{{ ec2_keypair }}"
+    group_id: "{{ sgresult.group_id }}"
+    vpc_subnet_id: "{{ publicsubnetreturn.results[0].subnet.id }}"
+    assign_public_ip: yes
+    instance_type: "{{ instance_type }}"
+    instance_profile_name: "{{ namespace }}-{{ node_type }}"
+    image: "{{ latest_centos_ami.results[0].ami_id }}"
+    wait: yes
+    region: "{{ region }}"
+    exact_count: "{{ instance_count }}"
+    count_tag:
+      Name: "{{ instance_nametag }}"
+    instance_tags:
+      Name: "{{ instance_nametag }}"
+      Owner: "{{ owner }}"
+      Owner_Slack_Username: "{{ owner_slack_username }}"
+      Expiration: "{{ expiration }}"
+      Project: "{{ project }}"
+  register: ec2_result
+  when: cloud_type is defined and cloud_type == "aws"
+
+- name: debug ec2
+  debug: var=ec2_result
+  when: debug in ['True', True]
+
+- name: create {{ node_type }} r53 CNAME
+  route53:
+      state: present
+      overwrite: true
+      zone: "{{ r53_domain }}"
+      record: "{{ namespace }}_{{ node_type }}_{{ region }}"
+      type: CNAME
+      ttl: 30
+      value: "{{ ec2_result.tagged_instances[0].public_dns_name }}"
+      wait: yes
+  register: r53result
+  when: cloud_type is defined and cloud_type == "aws"
+
+- name: debug r53
+  debug: var=r53result
+  when: debug in ['True', True]

@@ -1,0 +1,12 @@
+- hosts: ansible_host
+  become: true
+
+  pre_tasks:
+  - name: get EC2 facts
+    ec2_metadata_facts:
+    ignore_errors: true
+
+  roles:
+#    - { role: ec2, node_type: controlbox_node, tags: ['controlbox'] }
+    - { role: ssh-users, tags: ['users'] }
+

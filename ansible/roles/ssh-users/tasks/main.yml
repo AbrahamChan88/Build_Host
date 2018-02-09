@@ -1,0 +1,40 @@
+- name: Create Groups
+  group: 
+    name: "{{ item.name }}"
+    state: present 
+    gid: "{{ item.groupid }}"
+  with_items: "{{ user_groups }}"
+
+- name: Create users
+  user: 
+    name: "{{ item.name }}"
+    state: present
+    uid: "{{ item.uid }}"
+    shell: "{{ item.shell }}"
+    group: "{{ item.primary_group }}"
+    groups: "{{ item.groups }}"
+    append: yes
+  with_items: "{{ current_users }}"
+  when: current_users is defined
+
+- name: Copy ssh keys
+  authorized_key:
+    user: "{{ item.0.name }}"
+    key: "{{ lookup('file', item.1) }}"
+  with_subelements:
+    - "{{ current_users }}"
+    - authorized_key
+  
+- name: Allow specified groups to sudo
+  template: 
+    src: sudoers.j2
+    dest: /etc/sudoers.d/sudoers
+    validate: 'visudo -cf %s'
+    mode: 0440
+
+- name: Remove old users
+  user:
+    name: "{{ item }}"
+    state: absent
+    force: true
+  with_items: "{{ remove_users }}"

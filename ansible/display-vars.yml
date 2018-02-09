@@ -1,0 +1,13 @@
+---
+- hosts: all
+  gather_facts: true
+  become: true
+  pre_tasks:
+  - name: get EC2 facts
+    ec2_metadata_facts:
+    ignore_errors: true
+
+  - name: Output facts and vars
+    debug: var=hostvars[inventory_hostname]
+    
+
