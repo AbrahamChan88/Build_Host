@@ -1,0 +1,17 @@
+- name: enable docker
+  systemd:
+    name: docker
+    daemon_reload: yes
+    enabled: yes
+  
+- name: start docker
+  systemd:
+    name: docker
+    daemon_reload: yes
+    state: started
+
+- name: restart docker
+  systemd:
+    name: docker
+    daemon_reload: yes
+    state: restarted

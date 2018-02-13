@@ -1,0 +1,14 @@
+---
+docker_prereqs_rhel:
+  - python-docker
+
+docker_prereqs_ubuntu:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - software-properties-common
+
+docker_log_level: error
+docker_storage_driver: overlay
+
+docker_version: 17.09.0

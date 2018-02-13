@@ -1,0 +1,33 @@
+---
+- name: Include tasks for relevant OS Family
+  include_tasks: "{{ ansible_os_family }}.yml"
+
+- name: Add docker systemd unit
+  template:
+    src: docker.service.j2
+    dest: /etc/systemd/system/docker.service
+    mode: 700
+  become: true
+  register: dockersvc
+  notify:
+    - enable docker
+
+- name: Trigger start handler
+  debug:
+    msg: "Starting the Docker Daemon"
+  changed_when: true
+  when: not amibuilder and 
+        (dockersvc.changed or
+        startservices)
+  notify:
+    - start docker
+
+- name: Trigger restart handler
+  debug:
+    msg: "Restarting the Docker Daemon"
+  changed_when: true
+  when: not amibuilder and 
+        (dockersvc.changed or
+        restartservices)
+  notify:
+    - restart docker

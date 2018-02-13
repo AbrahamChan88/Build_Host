@@ -48,9 +48,10 @@
     instance_tags:
       Name: "{{ instance_nametag }}"
       Owner: "{{ owner }}"
-      Owner_Slack_Username: "{{ owner_slack_username }}"
-      Expiration: "{{ expiration }}"
-      Project: "{{ project }}"
+      AppID: "{{ item.tag_appid }}"
+      Billing: "{{ item.tag_billing }}"
+      Description: "{{ item.tag_description }}"
+  with_items: "{{ defined_infra }}"
   register: ec2_result
   when: cloud_type is defined and cloud_type == "aws"
 

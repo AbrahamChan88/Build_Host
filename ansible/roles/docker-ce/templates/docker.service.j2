@@ -1,0 +1,14 @@
+[Unit]
+Description=Docker Application Container Engine
+Documentation=http://docs.docker.io
+
+[Service]
+ExecStart=/usr/bin/dockerd \
+  --host=unix:///var/run/docker.sock \
+  --log-level={{ docker_log_level }} \
+  --storage-driver={{ docker_storage_driver }}
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

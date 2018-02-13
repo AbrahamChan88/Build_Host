@@ -1,0 +1,19 @@
+---
+- name: Copy pip requirements file
+  copy:
+    src: {{ role_path }}/files/
+    dest: ~/
+    owner: root
+    group: wheel
+    mode: 0744
+    mode: 700
+  become: true
+
+- name: Install easy_install pip
+  shell: ~/easy_install pip
+  become: true
+
+- name: Install requirements and Ansible via python pip
+  shell: ~/pip install -r requirements.txt
+  become: true
+...
