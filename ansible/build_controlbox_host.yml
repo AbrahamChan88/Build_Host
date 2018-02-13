@@ -1,4 +1,4 @@
-- hosts: ansible_host
+- hosts: controlbox_host
   become: true
 
   pre_tasks:

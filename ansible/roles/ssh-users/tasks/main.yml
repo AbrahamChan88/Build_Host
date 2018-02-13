@@ -30,7 +30,7 @@
     src: sudoers.j2
     dest: /etc/sudoers.d/sudoers
     validate: 'visudo -cf %s'
-    mode: 0440
+    mode: 440
 
 - name: Remove old users
   user:

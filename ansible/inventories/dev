@@ -1,2 +1,5 @@
 [dev]
 localhost ansible_connection=local ansible_python_interpreter=python
+
+[controlbox_host]
+"{{ namespace }}_{{ node_type }}_{{ region }}_{{ r53_domain }}".com #ansible_host=<IP> ansible_ssh_user=<user>
