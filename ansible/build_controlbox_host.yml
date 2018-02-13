@@ -7,7 +7,7 @@
     ignore_errors: true
 
   roles:
-#    - { role: ec2, node_type: controlbox_node, tags: ['controlbox'] }
+#    - { role: machine, node_type: controlbox_node, tags: ['controlbox'] }
     - { role: ssh-users, tags: ['users'] }
     - { role: ansible, tags: ['controlbox_ansible'] }
     - { role: git, tags: ['controlbox_git'] }
