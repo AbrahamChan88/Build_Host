@@ -30,6 +30,8 @@ To run locally, supply loopback in inventory and set `ansible_connection=local`:
 
 `ansible-playbook display-vars.yml -i 'localhost,' -e "ansible_connection=local"`
 
+Possible syntax:
+-e "owner= " -e "sg_group_id= " -e "vpc_subnet_id= " -e "iamrole_name= " -e "provision_machine= " -e "cloud_type= " -e "nat= " -e "region= " -e "namespace= " -e "build_all= "
 
 ***
 

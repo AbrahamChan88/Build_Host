@@ -5,9 +5,9 @@
   - name: get EC2 facts
     ec2_metadata_facts:
     ignore_errors: true
+  when: cloud_type is defined and cloud_type == "aws"
 
   roles:
-#    - { role: machine, node_type: controlbox_node, tags: ['controlbox'] }
     - { role: ssh-users, tags: ['users'] }
     - { role: ansible, tags: ['controlbox_ansible'] }
     - { role: git, tags: ['controlbox_git'] }

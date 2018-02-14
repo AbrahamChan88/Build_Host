@@ -1,0 +1,22 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: true
+  pre_tasks:
+
+  - name: Find latest CentOS7 AMI
+    ec2_ami_find:
+      name: "*CentOS Linux 7 x86_64 HVM EBS*"
+      owner: 679593333241
+      sort: name
+      sort_order: descending
+      sort_end: 1
+    register: latest_centos_ami
+
+  - name: debug centos ami output
+    debug: var=latest_centos_ami
+    when: debug in ['True', True]
+
+  roles:
+    - { role: machine, when: build_all is defined and build_all == "controlbox_node" or build_all == "all", node_type: controlbox_node }
+#    - { role: machine, when: build_all is defined and build_all == "webapp_node" or build_all == "all", node_type: webapp_node }

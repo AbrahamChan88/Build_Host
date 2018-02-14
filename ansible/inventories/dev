@@ -1,5 +1,11 @@
 [dev]
 localhost ansible_connection=local ansible_python_interpreter=python
 
+[dev:children]
+controlbox_host
+webapp_host
+
 [controlbox_host]
-"{{ namespace }}_{{ node_type }}_{{ region }}_{{ r53_domain }}".com #ansible_host=<IP> ansible_ssh_user=<user>
+#If manual entry is required: hostname #ansible_host=<IP> ansible_ssh_user=<user>
+
+[webapp_host]

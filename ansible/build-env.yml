@@ -1,0 +1,10 @@
+---
+- import_playbook: build-aws-machines.yml
+  when: provision_machine is defined aand provision_machine|bool == True
+- import_playbook: build-controlbox-host.yml
+  vars:
+    machine_role: controlbox
+#- import_playbook: build-webapp-host.yml
+#  vars:
+#    machine_role: controlbox
+...
