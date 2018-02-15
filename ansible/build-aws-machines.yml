@@ -6,11 +6,12 @@
 
   - name: Find latest CentOS7 AMI
     ec2_ami_find:
-      name: "*CentOS Linux 7 x86_64 HVM EBS*"
-      owner: 679593333241
+      name: "{{ ec2instance_ami_name }}"
+      region:  "{{ region }}"
+      owner: "{{ ec2instance_ami_owner }}"
       sort: name
       sort_order: descending
-      sort_end: 1
+      sort_end: "{{ ec2instance_ami_sort_count }}"
     register: latest_centos_ami
 
   - name: debug centos ami output

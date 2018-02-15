@@ -3,7 +3,7 @@
   with_first_found:
     - "{{ node_type }}.yml"
 
-- name: Provision a {{ node_type }} ec22 instance in a defined AWS infrastructure
+- name: Provision a {{ node_type }} ec2 instance in a defined AWS infrastructure
   ec2:
     key_name: "{{ ec2_keypair }}"
     group: "{{ item.sg_group_id }}"

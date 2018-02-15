@@ -5,7 +5,7 @@
   - name: get EC2 facts
     ec2_metadata_facts:
     ignore_errors: true
-  when: cloud_type is defined and cloud_type == "aws"
+#  when: cloud_type is defined and cloud_type == "aws"
 
   roles:
     - { role: ssh-users, tags: ['users'] }

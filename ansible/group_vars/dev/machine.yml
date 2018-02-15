@@ -1,0 +1,13 @@
+user_keypair: chc-tn-shared
+ec2instance_ami_name: "*.centos-7.hvm.x86_64*"
+ec2instance_ami_owner: 822825227953
+ec2instance_ami_sort_count: 2
+ec2_url: "https://ec2.{{ region }}.amazonaws.com:443"
+defined_infra:
+  - name: AWS ec2 instances information
+    sg_group_id: "{{ sg_group_id }}"
+    vpc_subnet_id: "{{ vpc_subnet_id }}"
+    instance_profile_name: "{{ iamrole_name }}"
+    tag_appid: "1234"
+    tag_billing: "Imaging/Aurora"
+    tag_description: "env=Dev/appid=123/team=Iig-Developers"

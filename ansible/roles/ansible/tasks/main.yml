@@ -1,7 +1,7 @@
 ---
 - name: Copy pip requirements file
   copy:
-    src: {{ role_path }}/files/
+    src: "{{ role_path }}/files/"
     dest: ~/
     owner: root
     group: wheel
