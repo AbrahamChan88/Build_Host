@@ -4,8 +4,11 @@ localhost ansible_connection=local ansible_python_interpreter=python
 [dev:children]
 controlbox_host
 webapp_host
+jenkins_host
 
 [controlbox_host]
 #If manual entry is required: hostname #ansible_host=<IP> ansible_ssh_user=<user>
 
 [webapp_host]
+
+[jenkins_host]

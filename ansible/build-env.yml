@@ -6,5 +6,8 @@
     machine_role: controlbox
 #- import_playbook: build-webapp-host.yml
 #  vars:
-#    machine_role: controlbox
+#    machine_role: webapp
+- import_playbook: build-jenkins-host.yml
+  vars:
+    machine_role: jenkins
 ...
