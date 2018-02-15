@@ -2,7 +2,7 @@
 - name: Copy pip requirements file
   copy:
     src: "{{ role_path }}/files/"
-    dest: ~/
+    dest: /home/ec2-user/
     owner: root
     group: wheel
     mode: 744

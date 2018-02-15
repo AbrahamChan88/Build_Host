@@ -38,3 +38,8 @@
     state: absent
     force: true
   with_items: "{{ remove_users }}"
+
+- name: Add groups for allowable SSH access
+  shell: sed -i '/AllowGroups/s/$/ "{{ item.name }}"/' /etc/ssh/sshd_config
+  with_items: "{{ user_groups }}"
+  become: true

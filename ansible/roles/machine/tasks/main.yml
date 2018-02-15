@@ -6,7 +6,7 @@
 - name: Provision a {{ node_type }} ec2 instance in a defined AWS infrastructure
   ec2:
     key_name: "{{ ec2_keypair }}"
-    group: "{{ item.sg_group_id }}"
+    group_id: "{{ item.sg_group_id }}"
     vpc_subnet_id: "{{ item.vpc_subnet_id }}"
     instance_type: "{{ instance_type }}"
     instance_profile_name: "{{ item.instance_profile_name }}"
@@ -35,10 +35,10 @@
       state: present
       overwrite: true
       zone: "{{ r53_domain }}"
-      record: "{{ namespace }}_{{ node_type }}_{{ region }}"
+      record: "{{ namespace }}_{{ node_type }}_{{ region }}.{{ r53_domain }}"
       type: CNAME
       ttl: 30
-      value: "{{ ec2_result.tagged_instances[0].private_dns_name }}"
+      value: "{{ ec2_result.results[0].tagged_instances[0].private_dns_name }}"
       private_zone: yes #required if zone is private and not public (public_dns_name)
       wait: yes
   register: r53result
