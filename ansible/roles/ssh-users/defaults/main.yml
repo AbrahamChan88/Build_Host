@@ -39,8 +39,12 @@ current_users:
 remove_users:
   - fakeuser
 
+# Any umask, useful for 'hardened' images
+umask_id:
+  - 027
 
-#[ec2-user@ip-10-224-166-88 ~]$ sudo cat /etc/ssh/sshd_config |grep ClientAliveCountMax
+#SSH time-out setting
+#sudo cat /etc/ssh/sshd_config |grep ClientAliveCountMax
 #ClientAliveCountMax 0
-#[ec2-user@ip-10-224-166-88 ~]$ sudo cat /etc/ssh/sshd_config |grep ClientAliveInterval
+#sudo cat /etc/ssh/sshd_config |grep ClientAliveInterval
 #ClientAliveInterval 300

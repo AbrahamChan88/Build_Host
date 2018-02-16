@@ -47,3 +47,8 @@
 - service:
     name: sshd
     state: restarted
+
+- name: Update umask
+  shell: sed -i 's+{{ item }}+umask 022+g' /etc/profile
+  with_items: "{{ umask_id }}""
+  become: true
