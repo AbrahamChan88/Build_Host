@@ -63,3 +63,35 @@
     ansible_port: 22
     groups: controlbox_host
   when: node_type == "controlbox_node" and nat is defined and nat|bool == True
+
+- name: Update {{ node_type }} with newly created {{ namespace }}_{{ node_type }}_{{ region }}
+  add_host:
+    hostname: "{{ namespace }}_{{ node_type }}_{{ region }}"
+    ansible_host: "{{ ec2_result.results[0].tagged_instances[0].private_ip }}"
+    ansible_port: 22
+    groups: webapp_host
+  when: node_type == "webapp_node" and nat is defined and nat|bool != True
+
+- name: Update {{ node_type }} with newly created {{ namespace }}_{{ node_type }}_{{ region }} NAT IP
+  add_host:
+    hostname: "{{ namespace }}_{{ node_type }}_{{ region }}.{{ r53_domain }}"
+    ansible_host: 10.183.0.{{ ec2_result.results[0].tagged_instances[0].private_ip.split('.')[-1] }}
+    ansible_port: 22
+    groups: webapp_host
+  when: node_type == "webapp_node" and nat is defined and nat|bool == True
+
+- name: Update {{ node_type }} with newly created {{ namespace }}_{{ node_type }}_{{ region }}
+  add_host:
+    hostname: "{{ namespace }}_{{ node_type }}_{{ region }}"
+    ansible_host: "{{ ec2_result.results[0].tagged_instances[0].private_ip }}"
+    ansible_port: 22
+    groups: jenkins_host
+  when: node_type == "jenkins_node" and nat is defined and nat|bool != True
+
+- name: Update {{ node_type }} with newly created {{ namespace }}_{{ node_type }}_{{ region }} NAT IP
+  add_host:
+    hostname: "{{ namespace }}_{{ node_type }}_{{ region }}.{{ r53_domain }}"
+    ansible_host: 10.183.0.{{ ec2_result.results[0].tagged_instances[0].private_ip.split('.')[-1] }}
+    ansible_port: 22
+    groups: jenkins_host
+  when: node_type == "jenkins_node" and nat is defined and nat|bool == True

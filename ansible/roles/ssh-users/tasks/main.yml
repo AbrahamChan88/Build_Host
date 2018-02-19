@@ -48,7 +48,10 @@
     name: sshd
     state: restarted
 
-- name: Update umask
-  shell: sed -i 's+{{ item }}+umask 022+g' /etc/profile
-  with_items: "{{ umask_id }}""
+- name: Update umask in profile
+  shell: sed -i 's+umask 027+umask 022+g' /etc/profile
+  become: true
+
+- name: Update umask in global bashrc
+  shell: sed -i 's+umask 027+umask 022+g' /etc/bashrc
   become: true
