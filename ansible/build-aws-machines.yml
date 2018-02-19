@@ -19,5 +19,6 @@
     when: debug in ['True', True]
 
   roles:
-    - { role: machine, when: build_all is defined and build_all == "controlbox_node" or build_all == "all", node_type: controlbox_node }
-#    - { role: machine, when: build_all is defined and build_all == "webapp_node" or build_all == "all", node_type: webapp_node }
+    - { role: machine, when: build_node is defined and build_node == "controlbox_node" or build_node == "all", node_type: controlbox_node }
+    - { role: machine, when: build_node is defined and build_node == "webapp_node" or build_node == "all", node_type: webapp_node }
+    - { role: machine, when: build_node is defined and build_node == "jenkins_node" or build_node == "all", node_type: jenkins_node }

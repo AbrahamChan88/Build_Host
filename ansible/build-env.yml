@@ -4,10 +4,13 @@
 - import_playbook: build-controlbox-host.yml
   vars:
     machine_role: controlbox
-#- import_playbook: build-webapp-host.yml
-#  vars:
-#    machine_role: webapp
+  when: build_node is defined and build_node == "controlbox_node" or build_node == "all"
+- import_playbook: build-webapp-host.yml
+  vars:
+    machine_role: webapp
+  when: build_node is defined and build_node == "webapp_node" or build_node == "all"
 - import_playbook: build-jenkins-host.yml
   vars:
     machine_role: jenkins
+  when: build_node is defined and build_node == "jenkins_node" or build_node == "all"
 ...

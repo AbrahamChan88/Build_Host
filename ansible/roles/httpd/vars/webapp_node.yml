@@ -1,0 +1,4 @@
+---
+common.s3_bucket: SomeBucket
+web_data_path: WhereItIsStoredonSomeBucket
+...

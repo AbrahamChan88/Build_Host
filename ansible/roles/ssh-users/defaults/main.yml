@@ -41,7 +41,7 @@ remove_users:
 
 # Any umask, useful for 'hardened' images
 umask_id:
-  - 027
+  - umask 027
 
 #SSH time-out setting
 #sudo cat /etc/ssh/sshd_config |grep ClientAliveCountMax

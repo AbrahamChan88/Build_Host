@@ -1,0 +1,19 @@
+---
+- name: Include vars
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ node_type }}.yml"
+
+- name: Install Apache; Latest version
+  yum:
+    name: httpd
+    state: latest
+  notify:
+    - enable httpd
+
+- name: Copy httpd site from S3
+  command: aws s3 cp {{ role_path }}/files/httpd/site/ s3://{{ common.s3_bucket }}/{{ web_data_path }}/httpd/site/ --recursive
+  notify:
+    - restart docker
+  when: cloud_type is defined and cloud_type == "aws"
+...
