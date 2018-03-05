@@ -1,0 +1,13 @@
+---
+k8s_data_dir: /var/lib/kubernetes
+kube_bin_dir: /usr/local/bin
+
+# kubectl binaries
+k8s_version: "v1.8.5"
+k8s_release_url: "https://dl.k8s.io/{{ k8s_version }}/kubernetes-server-linux-amd64.tar.gz"
+
+#kubeconfig
+k8s_api_internal_dns: k8s-cluster.domain.com #example of auto generated namespace
+k8s_api_internal_port: 443 #exmaple of installed port
+kubelet_token: bc265cd6-d904-45ad-b5de-219ae07ab001 #example of token
+...

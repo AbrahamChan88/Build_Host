@@ -9,5 +9,4 @@ defined_infra:
     vpc_subnet_id: "{{ vpc_subnet_id }}"
     instance_profile_name: "{{ iamrole_name }}"
     tag_appid: "1234"
-    tag_billing: "Imaging/Aurora"
-    tag_description: "env=Dev/appid=123/team=Iig-Developers"
+    tag_description: "env=Dev/appid=123/team=Developers"

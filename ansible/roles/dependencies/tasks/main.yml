@@ -1,0 +1,58 @@
+---
+- name: Include Playbook and Role Specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ additional_dependencies }}.yml"
+
+- name: Copy Jenkins plugins required by xyz deployment to {{ jenkins_restore_plugin_dir }}
+  unarchive:
+    src: "{{ jenkins_backup_plugin_url }}"
+    dest: "{{ jenkins_restore_plugin_dir }}"
+    remote_src: yes
+  become: true
+  notify:
+    - restart jenkins
+  when: jenkins_additional_dependencies is defined and jenkins_additional_dependencies|bool == True
+
+- name: Obtain nodejs installation scripts
+  shell: curl --silent --location https://rpm.nodesource.com/setup_8.x | sudo bash -
+  become: true
+  when: jenkins_additional_dependencies is defined and jenkins_additional_dependencies|bool == True
+
+# --- Microsoft .NET Core SDK installation section; Move to a role in the future (?) ---
+- name: Import Microsoft signature key
+  shell: rpm --import https://packages.microsoft.com/keys/microsoft.asc
+  become: true
+  when: dotnet_additional_dependencies is defined and dotnet_additional_dependencies|bool == True
+
+- name: Import Microsoft Product feed
+  shell: sh -c 'echo -e "[packages-microsoft-com-prod]\nname=packages-microsoft-com-prod \nbaseurl=https://packages.microsoft.com/yumrepos/microsoft-rhel7.3-prod\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/dotnetdev.repo'
+  become: true
+  when: dotnet_additional_dependencies is defined and dotnet_additional_dependencies|bool == True
+
+- name: Install the .NET Core SDK
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - libunwind
+    - libicu
+    - dotnet-sdk-2.0.0
+  become: true
+  when: dotnet_additional_dependencies is defined and dotnet_additional_dependencies|bool == True
+# --- Microsoft .NET Core SDK installation section; Move to a role in the future (?) ---
+
+- name: Install additional RPM packages
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "{{ rpm_dependencies }}"
+  become: true
+  when: rpm_additional_dependencies is defined and rpm_additional_dependencies|bool == True
+
+- name: Disable Visual Studio telemetry
+  shell: export DOTNET_CLI_TELEMETRY_OPTOUT=1
+  become: true
+  when: vst_additional_dependencies is defined and vst_additional_dependencies|bool == True
+...

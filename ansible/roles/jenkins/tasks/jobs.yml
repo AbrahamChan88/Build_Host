@@ -1,0 +1,23 @@
+---
+# Choose a method:
+#- name: Install python-jenkins
+#  yum:
+#    name: python-jenkins
+#    state: installed
+#  become: true
+#
+#- name: Install requiremented python-jenkins for job creation
+#  shell: pip install python-jenkins
+#  become: true
+
+- jenkins_job:
+    config: "{{ lookup('file', 'templates/hello_a-team.xml') }}"
+    name: Hello_A-Team
+    state: present
+    url: "http://localhost:8080" #Or set to {{ ec2_result.results[0].tagged_instances[0].private_ip }} but it does not work on re-runs; Change code to look up IP.
+    user: "{{ jenkins_admin_username }}"
+    password: "{{ jenkins_admin_password }}"
+#    jenkins_admin_password_file: ""
+#    jenkins_admin_token: ""
+#    jenkins_admin_token_file: ""
+...

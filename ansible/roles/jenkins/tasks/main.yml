@@ -56,5 +56,15 @@
     path: "{{ jenkins_home }}/init.groovy.d/basic-security.groovy"
     state: absent
 
+#- name: Search for Ansible installation
+#    shell: which ansible
+#  resgister: ansible_jenkins_path
+#
+#- name: Update Ansible directory ownership
+#    shell: "chown jenkins:jenkins {{ ansible_jenkins_path }}"
+#  become: true
+#  when: conditioanl check for installation of Ansible
+
 # Update Jenkins and install configured plugins.
 - include: plugins.yml
+- include: jobs.yml

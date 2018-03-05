@@ -1,0 +1,21 @@
+{
+  "CN": "givemeaname",
+  "hosts": [
+    "127.0.0.1",
+    "givemeaname"
+    "insertothernames"
+  ],
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "country",
+      "ST": "prov",
+      "L": "city",
+      "O": "organization",
+      "OU": "ou"
+    }
+  ]
+}

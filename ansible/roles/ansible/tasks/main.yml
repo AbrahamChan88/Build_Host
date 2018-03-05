@@ -2,7 +2,7 @@
 - name: Copy pip requirements file
   copy:
     src: "{{ role_path }}/files/"
-    dest: /home/ec2-user/
+    dest: /home/ec2-user/ #example default user for AWS EC2 instance
     owner: root
     group: wheel
     mode: 744
@@ -14,5 +14,9 @@
 
 - name: Install requirements and Ansible via python pip
   shell: pip install -r requirements.txt
+  become: true
+
+- name: Configure Ansible to disable host key checking
+  shell: export ANSIBLE_HOST_KEY_CHECKING=False
   become: true
 ...

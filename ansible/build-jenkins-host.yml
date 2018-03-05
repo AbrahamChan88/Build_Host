@@ -9,5 +9,9 @@
 
   roles:
     - { role: ssh-users, tags: ['users'] }
+    - { role: ansible, when: additional_dependencies is defined, tags: ['ansible'] }
+    - { role: git, when: additional_dependencies is defined, tags: ['git'] }
+    - { role: kubectl, when: additional_dependencies is defined, tags: ['kubectl'] }
     - { role: java, tags: ['java'] }
     - { role: jenkins, tags: ['jenkins'] }
+    - { role: dependencies, when: additional_dependencies is defined, tags: ['jenkins_dependencies'] }

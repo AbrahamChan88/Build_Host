@@ -1,0 +1,15 @@
+---
+jenkins_additional_dependencies: True
+jenkins_backup_plugin_url: http://somewhere/jenkins_plugins_backup.tar
+jenkins_restore_plugin_dir: "{{ jenkins_home }}"
+# Note: Jenkins plugin directory is "plugins"; tar file will decompress in a created "plugins" folder.
+
+rpm_additional_dependencies: True
+vst_additional_dependencies: True
+dotnet_additional_dependencies: True
+rpm_dependencies:
+  - nodejs #8.5.0
+  - wget #1.14-15
+  - openssh-server #7.4p1-13
+  - bzip2 #1.0.6-13
+...
