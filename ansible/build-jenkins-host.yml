@@ -7,11 +7,29 @@
     ignore_errors: true
 #  when: cloud_type is defined and cloud_type == "aws"
 
-  roles:
-    - { role: ssh-users, tags: ['users'] }
-    - { role: ansible, when: additional_dependencies is defined, tags: ['ansible'] }
-    - { role: git, when: additional_dependencies is defined, tags: ['git'] }
-    - { role: kubectl, when: additional_dependencies is defined, tags: ['kubectl'] }
-    - { role: java, tags: ['java'] }
-    - { role: jenkins, tags: ['jenkins'] }
-    - { role: dependencies, when: additional_dependencies is defined, tags: ['jenkins_dependencies'] }
+  tasks:
+  - import_role:
+      name: ssh-users
+    tags: users
+  - import_role:
+      name: ansible
+    tags: ansible
+  - import_role:
+      name: git
+    tags: git
+  - import_role:
+      name: kubectl
+    tags: kubectl
+    when: additional_dependencies is defined
+  - import_role:
+      name: java
+    tags: java
+  - import_role:
+      name: jenkins
+    tags: jenkins
+  - import_role:
+      name: dependencies
+    tags: dependencies
+    when: additional_dependencies is defined
+  - set_fact: headnode={{ groups[['jenkins_host'][0]] }}
+  - debug: msg={{ hostvars[headnode].ansible_all_ipv4_addresses }}

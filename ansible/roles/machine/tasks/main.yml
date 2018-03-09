@@ -54,6 +54,7 @@
     ansible_host: "{{ ec2_result.results[0].tagged_instances[0].private_ip }}"
     ansible_port: 22
     groups: controlbox_host
+  register: host_addition
   when: node_type == "controlbox_node" and nat is defined and nat|bool != True
 
 - name: Update {{ node_type }} with newly created {{ namespace }}_{{ node_type }}_{{ region }} NAT IP
@@ -62,6 +63,7 @@
     ansible_host: 10.183.0.{{ ec2_result.results[0].tagged_instances[0].private_ip.split('.')[-1] }}
     ansible_port: 22
     groups: controlbox_host
+  register: host_addition
   when: node_type == "controlbox_node" and nat is defined and nat|bool == True
 
 - name: Update {{ node_type }} with newly created {{ namespace }}_{{ node_type }}_{{ region }}
@@ -70,6 +72,7 @@
     ansible_host: "{{ ec2_result.results[0].tagged_instances[0].private_ip }}"
     ansible_port: 22
     groups: webapp_host
+  register: host_addition
   when: node_type == "webapp_node" and nat is defined and nat|bool != True
 
 - name: Update {{ node_type }} with newly created {{ namespace }}_{{ node_type }}_{{ region }} NAT IP
@@ -78,6 +81,7 @@
     ansible_host: 10.183.0.{{ ec2_result.results[0].tagged_instances[0].private_ip.split('.')[-1] }}
     ansible_port: 22
     groups: webapp_host
+  register: host_addition
   when: node_type == "webapp_node" and nat is defined and nat|bool == True
 
 - name: Update {{ node_type }} with newly created {{ namespace }}_{{ node_type }}_{{ region }}
@@ -86,6 +90,7 @@
     ansible_host: "{{ ec2_result.results[0].tagged_instances[0].private_ip }}"
     ansible_port: 22
     groups: jenkins_host
+  register: host_addition
   when: node_type == "jenkins_node" and nat is defined and nat|bool != True
 
 - name: Update {{ node_type }} with newly created {{ namespace }}_{{ node_type }}_{{ region }} NAT IP
@@ -94,4 +99,11 @@
     ansible_host: 10.183.0.{{ ec2_result.results[0].tagged_instances[0].private_ip.split('.')[-1] }}
     ansible_port: 22
     groups: jenkins_host
+  register: host_addition
   when: node_type == "jenkins_node" and nat is defined and nat|bool == True
+
+- set_fact: host_setup_ip="{{ host_addition.add_host.host_vars.ansible_host }}"
+
+- name: debug host ip information
+  debug: var=host_setup_ip
+  when: debug is defined and debug|bool == True

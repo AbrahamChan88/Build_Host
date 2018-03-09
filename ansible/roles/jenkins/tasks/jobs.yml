@@ -14,7 +14,7 @@
     config: "{{ lookup('file', 'templates/hello_a-team.xml') }}"
     name: Hello_A-Team
     state: present
-    url: "http://localhost:8080" #Or set to {{ ec2_result.results[0].tagged_instances[0].private_ip }} but it does not work on re-runs; Change code to look up IP.
+    url: "{{ host_setup_ip }}"
     user: "{{ jenkins_admin_username }}"
     password: "{{ jenkins_admin_password }}"
 #    jenkins_admin_password_file: ""
