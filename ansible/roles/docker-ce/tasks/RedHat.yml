@@ -17,7 +17,7 @@
     force: yes
     owner: root
     group: root
-    mode: 644
+    mode: 0644
 
 - name: Install Docker CE
   yum:

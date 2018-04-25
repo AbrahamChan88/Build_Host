@@ -1,0 +1,17 @@
+---
+#Global
+nat: False
+provision_machine: True
+build_node: all
+
+#AWS
+
+#GCP
+#machine_type: n1-standard-1
+#image: "{{ gcp_instance_image }}"
+#service_account_email: "{{ gcp_service_account }}"
+##credentials_file: /path/to/project.json
+gcp_project_id: iwcs-test
+gcp_external_ip: none
+gcp_instance_state: present
+...

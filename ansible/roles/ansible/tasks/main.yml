@@ -5,7 +5,7 @@
     dest: /home/ec2-user/ #example default user for AWS EC2 instance
     owner: root
     group: wheel
-    mode: 744
+    mode: 0744
   become: true
 
 - name: Install easy_install pip

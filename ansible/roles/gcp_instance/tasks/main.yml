@@ -1,0 +1,40 @@
+---
+- name: Include vars
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ node_type }}.yml"
+
+- name: Launch instances
+  gce:
+    instance_names: "{{ namespace }}-{{ node_type }}"
+    machine_type: "{{ machine_type }}"
+    image: "{{ image }}"
+    service_account_email: "{{ service_account_email }}"
+#      credentials_file: "{{ credentials_file }}"
+    project_id: "{{ project_id }}"
+    subnetwork: "{{ gcp_subnet }}"
+    external_ip: "{{ gcp_external_ip }}"
+    zone: "{{ gcp_zone }}"
+    tags: "{{ item }}"
+    state: "{{ gcp_instance_state }}"
+    with_items:
+      - "{{ gcp_network_acl }}"
+  register: gce_instance
+
+- name: Display contents of gce_instance
+  debug: var=gce_instance
+  when: debug|bool == True
+
+- name: Wait for SSH to come up
+  wait_for: host={{ item.public_ip }} port=22 delay=10 timeout=60
+  loop: "{{ gce_instance.instance_data }}"
+
+- name: Update {{ env_name }} with newly created {{ namespace }}-bastion_node
+  add_host:
+    hostname: "{{ namespace }}-{{ node_type }}"
+    ansible_host: "{{ item.public_ip }}"
+    ansible_port: 22
+    groups: bastion_host
+  with_items: "{{ gce_instance.instance_data }}"
+  when: node_type == "bastion_host" and nat is defined and nat|bool != True
+...

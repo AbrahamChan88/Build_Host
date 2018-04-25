@@ -1,0 +1,13 @@
+---
+provision_machine: True
+machine_type: custom-1-2048
+image: centos-7-v20180401
+service_account_email: 192413859847-compute@developer.gserviceaccount.com #define a minimal service account
+#credentials_file: /path/to/project.json
+gcp_external_ip: ephemeral
+gcp_subnet: yvr-devops
+gcp_zone: us-west1-a
+gcp_network_acl:
+  - remote-ssh
+
+...

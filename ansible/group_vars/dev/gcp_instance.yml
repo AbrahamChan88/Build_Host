@@ -1,0 +1,7 @@
+---
+machine_type: n1-standard-1
+image: centos-7-v20180401
+service_account_email: 192413859847-compute@developer.gserviceaccount.com
+#credentials_file: /path/to/project.json
+project_id: iwcs-test
+...

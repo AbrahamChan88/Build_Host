@@ -1,11 +1,11 @@
 - hosts: jenkins_host
   become: true
 
-  pre_tasks:
-  - name: get EC2 facts
-    ec2_metadata_facts:
-    ignore_errors: true
-#  when: cloud_type is defined and cloud_type == "aws"
+#  pre_tasks:
+#  - name: get EC2 facts
+#    ec2_metadata_facts:
+#    ignore_errors: true
+##  when: cloud_type is defined and cloud_type == "aws"
 
   tasks:
   - import_role:

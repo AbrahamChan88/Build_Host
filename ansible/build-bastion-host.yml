@@ -1,0 +1,7 @@
+- hosts: bastion_host
+  become: true
+
+  roles:
+    - { role: ssh-users, tags: ['users'] }
+    - { role: ansible, tags: ['controlbox_ansible'] }
+    - { role: git, tags: ['controlbox_git'] }

@@ -1,6 +1,12 @@
 ---
-- import_playbook: build-aws-machines.yml
-  when: provision_machine is defined and provision_machine|bool == True
+- import_playbook: build-aws-instances.yml
+  when: provision_machine is defined and provision_machine|bool == True and cloud_type is defined and cloud_type == "aws"
+- import_playbook: build-gcp-instances.yml
+  when: provision_machine is defined and provision_machine|bool == True  and cloud_type is defined and cloud_type == "gcp"
+- import_playbook: build-bastion-host.yml
+  vars:
+    machine_role: bastion
+  when: build_node is defined and build_node == "bastion_node" or build_node == "all"
 - import_playbook: build-controlbox-host.yml
   vars:
     machine_role: controlbox

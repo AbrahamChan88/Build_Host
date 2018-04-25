@@ -2,9 +2,6 @@ user_groups:
   - name: docker
     groupid: 30001
     sudo: false
-  - name: trinimbus
-    groupid: 31000
-    sudo: true
   - name: yvrdevops
     groupid: 32000
     sudo: true
@@ -18,22 +15,15 @@ current_users:
       - docker
     authorized_key:
       - sshkeys/abraham
-  - name: alan
-    uid: 10003
+current_users:
+  - name: abrahamchan
+    uid: 10005
     shell: /bin/bash
     primary_group: yvrdevops
     groups:
       - docker
-    authorized_key: 
-      - sshkeys/alan
-  - name: andy
-    uid: 10004
-    shell: /bin/bash
-    primary_group: yvrdevops
-    groups:
-      - docker
-    authorized_key: 
-      - sshkeys/andy
+    authorized_key:
+      - sshkeys/abrahamchan
 
 # Any user in this list will be removed on deploy. Intended for when people leave etc.
 remove_users:

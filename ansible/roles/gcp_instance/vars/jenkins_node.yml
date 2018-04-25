@@ -1,0 +1,12 @@
+---
+provision_machine: True
+machine_type: n1-standard-2
+image: centos-7-v20180401
+service_account_email: 192413859847-compute@developer.gserviceaccount.com
+#credentials_file: /path/to/project.json
+
+gcp_network_acl:
+  - remote-ssh
+  - jenkins-web
+
+...

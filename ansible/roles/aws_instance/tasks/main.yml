@@ -24,7 +24,6 @@
       Description: "{{ item.tag_description }}"
   with_items: "{{ defined_infra }}"
   register: ec2_result
-  when: cloud_type is defined and cloud_type == "aws"
 
 - name: debug ec2
   debug: var=ec2_result
@@ -42,7 +41,6 @@
       private_zone: yes #required if zone is private and not public (public_dns_name)
       wait: yes
   register: r53result
-  when: cloud_type is defined and cloud_type == "aws"
 
 - name: debug r53
   debug: var=r53result

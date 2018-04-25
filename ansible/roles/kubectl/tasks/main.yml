@@ -24,6 +24,6 @@
   template:
     src: kubeconfig.j2
     dest: "{{ k8s_data_dir }}/kubeconfig"
-    mode: 644
+    mode: 0644
   become: true
 ...
